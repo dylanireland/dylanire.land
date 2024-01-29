@@ -1,0 +1,89 @@
+/* BACKGROUND */
+
+@property --x {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+
+@keyframes colorChange {
+    0% {
+        --x: 0%;
+    }
+
+    100% {
+        --x: 100%;
+    }
+}
+
+/* SCROLLDOWN */
+
+@keyframes scrollDown {
+
+    0%, 100% {
+        stroke: rgba(0, 0, 0, 1)
+    }
+
+    50% {
+        stroke: rgba(0, 0, 0, 0.5)
+    }
+
+    /* Change to desired color */
+}
+
+/* CYLINDER */
+
+@keyframes cylinder {
+    0% {
+        transform: translateY(-0.5em)
+    }
+
+    10% {
+        transform: translateY(calc(-110% - 0.5em))
+    }
+
+    25% {
+        transform: translateY(calc(-100% - 0.5em))
+    }
+
+    35% {
+        transform: translateY(calc(-210% - 0.5em))
+    }
+
+    50% {
+        transform: translateY(calc(-200% - 0.5em))
+    }
+
+    60% {
+        transform: translateY(calc(-310% - 0.5em))
+    }
+
+    75% {
+        transform: translateY(calc(-300% - 0.5em))
+    }
+
+    85% {
+        transform: translateY(calc(-410% - 0.5em))
+    }
+
+    100% {
+        transform: translateY(calc(-400% - 0.5em))
+    }
+}
+
+/* ABOUT */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-2em);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+

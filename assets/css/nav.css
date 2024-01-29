@@ -1,0 +1,23 @@
+#nav {
+    width: 50%;
+    height: 3rem;
+    position: fixed;
+    top: 1rem;
+    left: calc(25% - 1rem);
+    border-radius: 3rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    background-color: rgba(245, 245, 245, 0.3);
+    box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+#nav > div:first-child {
+    height: 100%;
+    cursor: pointer;
+}
+
+#nav>div:first-child img {
+    height: 100%;
+}
