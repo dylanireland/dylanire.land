@@ -15,53 +15,53 @@ body, h1, h2, h3, h4, h5, h6, p {
 
 #subject {
     width: 100%;
-    height: 100vh;
+    height: 90vh;
+    height: 90svh;
 }
 
-.scrollDown {
+/* SOCIAL BUTTONS */
+
+#socialButtons {
     position: absolute;
-    right: 10px;
+    left: 1rem;
     top: 10%;
     bottom: 10%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 10%
+    width: 6%;
 }
 
-.caret {
-    width: 100%;
+#socialButtons .socialButton {
+    width: calc(100%);
+    aspect-ratio: 1 / 1;
+    background-color: rgba(245, 245, 245, 0.3);
+    box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
-.st0 {
-    fill: none;
-    stroke: #000;
-    stroke-width: 92;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-miterlimit: 10;
-    animation: scrollDown 1.5s infinite;
+#socialButtons .socialButton img {
+    width: 80%;
 }
 
-.caret:nth-child(1) .st0 {
-    animation-delay: 0s;
-}
+/* MAIN CONTENT (HERO) */
 
-.caret:nth-child(2) .st0 {
-    animation-delay: 0.3s;
-}
-
-.caret:nth-child(3) .st0 {
-    animation-delay: 0.6s;
+#hero {
+    position: relative;
+    width: 70%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
 }
 
 /* SIGNATURE */
 
 #signature {
-    position: relative;
-    width: 60%;
-    top: 10%;
-    margin: auto;
+    width: 100%;
 }
 
 /* CYLINDER */
@@ -73,8 +73,10 @@ body, h1, h2, h3, h4, h5, h6, p {
     font-weight: bold;
     font-size: 2em;
     text-align: center;
-    position: relative;
-    top: 5%;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #cylinder div {
@@ -101,6 +103,7 @@ body, h1, h2, h3, h4, h5, h6, p {
     display: flex;
     flex-direction: column;
     box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.25);
+    margin-bottom: 2rem;
 }
 
 #about > h1 {
@@ -153,7 +156,108 @@ body, h1, h2, h3, h4, h5, h6, p {
 
 /* PROJECTS */
 
+#projects {
+    margin: 0 10% 5rem 10%;
+    padding-top: 3rem;
+}
 
+#projects h1 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+#projects > div {
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+#projects > div > div {
+    border-radius: 1rem;
+    box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+#projects > div > div:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0.5em 1.5em rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+#projects > div > div::before {
+    content: '';
+    background-color: rgba(0, 0, 0, 0.0);
+    transition: background-color 0.3s ease;
+    border-radius: inherit;
+}
+
+#projects > div > div:hover::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#projects > div > div > span {
+    opacity: 0;
+}
+
+#projects > div > div:hover > span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    transition: opacity 0.3s ease;
+    text-align: center;
+    opacity: 1;
+}
+
+#projects .balloon {
+    grid-column-start: 1;
+    grid-column-end: 7;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    background-color: white;
+    background-image: url("/assets/photos/projects/balloon.svg");
+    background-size: cover;
+}
+
+#projects .jukebox {
+    grid-column-start: 7;
+    grid-column-end: 11;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    background-image: url("/assets/photos/projects/juke.png");
+    background-size: cover;
+}
+
+#projects .dappdev {
+    grid-column-start: 1;
+    grid-column-end: 8;
+    grid-row-start: 3;
+    grid-row-end: 5;
+    background-image: url("/assets/photos/projects/dappdev.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#projects .aero {
+    grid-column-start: 8;
+    grid-column-end: 11;
+    grid-row-start: 3;
+    grid-row-end: 5;
+    background-image: url("/assets/photos/projects/aero.png");
+    background-size: cover;
+    background-position: center;
+}
 
 /* FOOTER */
 
@@ -163,5 +267,7 @@ footer {
     align-items: center;
     height: 2rem;
     padding: 1rem;
+    background-color: rgba(245, 245, 245, 0.3);
+    box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.4);
 }
 

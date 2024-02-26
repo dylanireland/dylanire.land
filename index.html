@@ -3,7 +3,7 @@
     <link href="/assets/css/nav.css" rel="stylesheet">
     <link href="/assets/css/keyframes.css" rel="stylesheet">
     <link href="/assets/css/index.css" rel="stylesheet">
-    <link href="/assets/css/scrollbar.css" rel="stylesheet">
+    <link href="/assets/css/scroll.css" rel="stylesheet">
     <script src="/assets/js/animations.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"
         integrity="sha512-jEnuDt6jfecCjthQAJ+ed0MTVA++5ZKmlUcmDGBv2vUI/REn6FuIdixLNnQT+vKusE2hhTk2is3cFvv5wA+Sgg=="
@@ -21,37 +21,40 @@
         <div onclick="relocate('/')">
             <img src="/assets/photos/marque.png">
         </div>
+        <div id="navbuttons">
+            <button onclick="relocate('#about')">About</button>
+            <button onclick="relocate('#projects')">Projects</button>
+        </div>
     </div>
     <div id="subject">
-        <div class="scrollDown">
-            <span class="caret">
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                y="0px" viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve">
-                    <polyline class="st0" points="146.4,323.2 500,676.8 853.6,323.2 " />
-                </svg>
-            </span>
-            <span class="caret">
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                    y="0px" viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve">
-                    <polyline class="st0" points="146.4,323.2 500,676.8 853.6,323.2 " />
-                </svg>
-            </span>
-            <span class="caret">
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                    y="0px" viewBox="0 0 1000 1000" style="enable-background:new 0 0 1000 1000;" xml:space="preserve">
-                    <polyline class="st0" points="146.4,323.2 500,676.8 853.6,323.2 " />
-                </svg>
-            </span>
+        <div id="socialButtons">
+            <div class="socialButton" onclick="openLink('github')">
+                <img src="/assets/photos/socialbuttons/github.svg"/>
+            </div>
+            <div class="socialButton" onclick="openLink('linkedin')">
+                <img src="/assets/photos/socialbuttons/linkedin.svg" />
+            </div>
+            <div class="socialButton" onclick="openLink('medium')">
+                <img src="/assets/photos/socialbuttons/medium.svg" />
+            </div>
+            <div class="socialButton" onclick="openLink('x')">
+                <img src="/assets/photos/socialbuttons/x.svg" />
+            </div>
         </div>
-        <div id="signature">
+
+        <div id="hero">
+            <div id="signature">
+                
+            </div>
+            <div id="cylinder">
+                <div>Software Engineering</div>
+                <div>Developer Advocacy</div>
+                <div>Blockchain & Web3</div>
+                <div>UI/UX</div>
+                <div>Software Engineering</div>
+            </div>
         </div>
-        <div id="cylinder">
-            <div>Software Engineering</div>
-            <div>Developer Advocacy</div>
-            <div>Blockchain & Web3</div>
-            <div>UI/UX</div>
-            <div>Software Engineering</div>
-        </div>
+        
     </div>
     <div id="about">
         <h1>About Me</h1>
@@ -77,6 +80,18 @@
     <div id="projects">
         <h1>Projects</h1>
         <div>
+            <div class="balloon" onclick="openLink('balloon')">
+                <span>Balloon Protocol</span>
+            </div>
+            <div class="jukebox" onclick="openLink('jukebox')">
+                <span>Jukebox</span>
+            </div>
+            <div class="dappdev" onclick="openLink('dappdev')">
+                <span>dApp Developer Series</span>
+            </div>
+            <div class="aero" onclick="openLink('aero')">
+                <span>Pittsburgh Aerophotography</span>
+            </div>
         </div>
     </div>
     <footer>

@@ -1,0 +1,64 @@
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+    width: 0.75rem;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+::-webkit-scrollbar-track {
+
+}
+
+::-webkit-scrollbar-track-piece {
+
+}
+
+/* SCROLLDOWN */
+
+.scrollDown {
+    position: absolute;
+    right: 1rem;
+    top: 10%;
+    bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 7.5%;
+}
+
+.caret {
+    width: 100%;
+}
+
+.st0 {
+    fill: none;
+    stroke: #000;
+    stroke-width: 92;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 10;
+    animation: scrollDown 1.5s infinite;
+}
+
+.caret:nth-child(1) .st0 {
+    animation-delay: 0s;
+}
+
+.caret:nth-child(2) .st0 {
+    animation-delay: 0.3s;
+}
+
+.caret:nth-child(3) .st0 {
+    animation-delay: 0.6s;
+}
