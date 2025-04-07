@@ -13,6 +13,15 @@ body, h1, h2, h3, h4, h5, h6, p {
     margin: 0;
 }
 
+a {
+    color: rgb(89, 108, 255);
+    text-decoration: none;
+}
+
+.navbuttons button {
+    color: black;
+}
+
 #subject {
     width: 100%;
     height: 90vh;
@@ -272,6 +281,22 @@ footer {
     box-shadow: 0 0.25em 1em rgba(0, 0, 0, 0.4);
 }
 
+@media (max-aspect-ratio: 6/4) {
+    /* SUBJECT */
+    
+    #about {
+        width: 70%;
+    }
+}
+
+@media (max-aspect-ratio: 5/3) {
+    /* SUBJECT */
+    
+    #about {
+        width: 75%;
+    }
+}
+
 @media (max-aspect-ratio: 4/3) {
     /* SUBJECT */
 
@@ -301,7 +326,7 @@ footer {
     /* ABOUT */
     
     #about {
-        width: 75%;
+        width: 85%;
     }
     
         

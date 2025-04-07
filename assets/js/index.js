@@ -48,3 +48,6 @@ function openLink(project) {
 	}
 	window.open(location, "_blank");
 }
+
+
+document.getElementById('year').textContent = new Date().getFullYear();

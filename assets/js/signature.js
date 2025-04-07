@@ -1,7 +1,7 @@
 lottie.loadAnimation({
-	container: document.getElementById("signature"), // the dom element that will contain the animation
+	container: document.getElementById("signature"),
 	renderer: "svg",
 	loop: false,
 	autoplay: true,
-	path: "./assets/signature/signature.json" // the path to the animation json
+	path: "./assets/signature/signature.json"
 });
