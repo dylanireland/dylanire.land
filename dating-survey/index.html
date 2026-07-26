@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dylan's Dating Survey</title>
+<meta name="description" content="A short survey. Every question is optional.">
+<style>
+  :root {
+    --ink: #43302e;
+    --ink-soft: #8a6f6a;
+    --pink: #e8467c;
+    --pink-deep: #d63a6f;
+    --pink-soft: #fdeef4;
+    --pink-line: #f6c9da;
+    --gold: #f5a623;
+    --card: #ffffff;
+    --line: #f1e3dd;
+    --radius: 18px;
+    --shadow: 0 8px 24px rgba(120, 40, 50, 0.14);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(160deg, #f0c39e 0%, #dd8a84 100%) fixed;
+    min-height: 100vh;
+    line-height: 1.55;
+    padding: 20px 14px 60px;
+  }
+  .wrap { max-width: 600px; margin: 0 auto; }
+
+  /* Header */
+  header { padding: 36px 4px 8px; color: #fff; }
+  h1 {
+    font-size: clamp(26px, 6vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    text-shadow: 0 2px 10px rgba(150, 50, 40, 0.25);
+  }
+  .tagline {
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 15.5px;
+    margin-top: 10px;
+    max-width: 480px;
+  }
+  .optional-note {
+    margin-top: 18px;
+    background: rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 12px;
+    padding: 9px 14px;
+    font-size: 14px;
+    color: #fff;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* Question cards */
+  .q {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px 18px 22px;
+    margin-top: 16px;
+    box-shadow: var(--shadow);
+  }
+  .q-top { display: flex; align-items: baseline; margin-bottom: 2px; }
+  .q-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pink);
+    letter-spacing: 1px;
+  }
+  .opt-tag {
+    margin-left: auto;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    opacity: 0.7;
+  }
+  .q h2 { font-size: 17px; font-weight: 700; margin: 8px 0 4px; letter-spacing: -0.2px; }
+  .hint { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 12px; }
+
+  input[type="text"], textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    background: #fffaf7;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 11px 13px;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input[type="text"]::placeholder, textarea::placeholder { color: #c2a9a2; }
+  input[type="text"]:focus, textarea:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(232, 70, 124, 0.12);
+  }
+  textarea { resize: vertical; min-height: 92px; }
+
+  /* Choice chips */
+  .choices { display: flex; flex-direction: column; gap: 9px; margin-top: 10px; }
+  .choice { position: relative; }
+  .choice input { position: absolute; opacity: 0; pointer-events: none; }
+  .choice label {
+    display: block;
+    background: var(--pink-soft);
+    border: 1.5px solid var(--pink-line);
+    border-radius: 999px;
+    padding: 10px 17px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all .12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .choice label:active { transform: scale(0.98); }
+  .choice input:checked + label {
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    border-color: var(--pink-deep);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(232, 70, 124, 0.35);
+  }
+  .clear-choice {
+    background: none; border: none; font: inherit;
+    font-size: 12.5px; color: var(--ink-soft);
+    margin-top: 10px; cursor: pointer; text-decoration: underline;
+    padding: 2px; display: none;
+  }
+  .clear-choice.show { display: inline-block; }
+
+  /* 1-10 scale */
+  .scale { display: flex; gap: 4px; margin-top: 10px; }
+  .scale button {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 52px;
+    aspect-ratio: 1;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    background: var(--pink-soft);
+    border: 1.5px solid var(--pink-line);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .scale button:active { transform: scale(0.92); }
+  .scale button.sel {
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    border-color: var(--pink-deep);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(232, 70, 124, 0.35);
+  }
+  .scale-caps {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--ink-soft); margin-top: 7px;
+  }
+
+  /* Star rating */
+  .stars { display: flex; gap: 2px; margin-top: 8px; }
+  .stars button {
+    background: none; border: none; cursor: pointer;
+    font-size: 34px; line-height: 1; padding: 3px;
+    color: #eddcd5;
+    transition: color .12s, transform .12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .stars button.sel {
+    color: var(--gold);
+    text-shadow: 0 2px 8px rgba(245, 166, 35, 0.35);
+  }
+  .stars button:active { transform: scale(0.88); }
+
+  /* Submit */
+  .submit-area { margin-top: 28px; }
+  .submit-btn {
+    width: 100%;
+    font: inherit;
+    font-size: 16.5px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    border: none;
+    border-radius: 999px;
+    padding: 16px 24px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(200, 40, 90, 0.4);
+    transition: opacity .15s, transform .12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { opacity: 0.6; cursor: default; }
+  .submit-note { font-size: 13px; color: rgba(255, 255, 255, 0.92); margin-top: 14px; text-align: center; }
+  .submit-error {
+    display: none;
+    margin-top: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(160, 30, 30, 0.45);
+    border-radius: 10px;
+    padding: 8px 12px;
+    text-align: center;
+  }
+  .submit-error.show { display: block; }
+
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: 36px;
+  }
+
+  /* Thanks screen */
+  #thanks { display: none; text-align: center; padding: 60px 0; }
+  #thanks .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 44px 26px;
+  }
+  #thanks .mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    color: #fff;
+    font-size: 26px;
+    box-shadow: 0 6px 18px rgba(232, 70, 124, 0.4);
+  }
+  #thanks h2 { font-size: 24px; margin: 18px 0 10px; letter-spacing: -0.3px; }
+  #thanks p { color: var(--ink-soft); max-width: 400px; margin: 0 auto; }
+
+  @media (max-width: 420px) {
+    .q { padding: 17px 15px 19px; }
+    .scale button { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="survey">
+    <header>
+      <h1>Dylan's Dating Survey</h1>
+      <p class="tagline">The following survey helps Dylan meet more people and find success in his dating life. Your honest response is highly appreciated!</p>
+      <div class="optional-note">Every question is optional. Answer what you want, skip the rest.</div>
+    </header>
+
+    <form id="surveyForm" novalidate>
+
+      <!-- Q1 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">01</span><span class="opt-tag">optional</span></div>
+        <h2>Where did we meet?</h2>
+        <p class="hint">Bar, app, city. Whatever narrows it down.</p>
+        <input type="text" name="where_met" placeholder="Your answer" autocomplete="off">
+      </section>
+
+      <!-- Q2 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">02</span><span class="opt-tag">optional</span></div>
+        <h2>First impression?</h2>
+        <div class="choices" data-name="first_impression">
+          <div class="choice"><input type="radio" id="fi1" name="first_impression" value="Charming"><label for="fi1">Charming</label></div>
+          <div class="choice"><input type="radio" id="fi2" name="first_impression" value="Funny"><label for="fi2">Funny</label></div>
+          <div class="choice"><input type="radio" id="fi3" name="first_impression" value="Cute"><label for="fi3">Cute</label></div>
+          <div class="choice"><input type="radio" id="fi4" name="first_impression" value="Unremarkable"><label for="fi4">Unremarkable</label></div>
+          <div class="choice"><input type="radio" id="fi5" name="first_impression" value="Don't remember much"><label for="fi5">Don't remember much</label></div>
+        </div>
+        <button type="button" class="clear-choice">clear answer</button>
+      </section>
+
+      <!-- Q3 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">03</span><span class="opt-tag">optional</span></div>
+        <h2>What did you actually think of Dylan?</h2>
+        <p class="hint">Good, bad, or indifferent. He can take it.</p>
+        <textarea name="thoughts" placeholder="Your answer"></textarea>
+      </section>
+
+      <!-- Q4 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">04</span><span class="opt-tag">optional</span></div>
+        <h2>Overall rating, 1 to 10</h2>
+        <div class="scale" id="expScale" data-name="overall_rating"></div>
+        <div class="scale-caps"><span>1 = never again</span><span>10 = memorable</span></div>
+      </section>
+
+      <!-- Q5 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">05</span><span class="opt-tag">optional</span></div>
+        <h2>Strongest quality?</h2>
+        <div class="choices" data-name="strongest_quality">
+          <div class="choice"><input type="radio" id="sq1" name="strongest_quality" value="The conversation"><label for="sq1">The conversation</label></div>
+          <div class="choice"><input type="radio" id="sq2" name="strongest_quality" value="The humor"><label for="sq2">The humor</label></div>
+          <div class="choice"><input type="radio" id="sq3" name="strongest_quality" value="The looks"><label for="sq3">The looks</label></div>
+          <div class="choice"><input type="radio" id="sq4" name="strongest_quality" value="The confidence"><label for="sq4">The confidence</label></div>
+          <div class="choice"><input type="radio" id="sq5" name="strongest_quality" value="Still deciding"><label for="sq5">Still deciding</label></div>
+        </div>
+        <button type="button" class="clear-choice">clear answer</button>
+      </section>
+
+      <!-- Q6 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">06</span><span class="opt-tag">optional</span></div>
+        <h2>What would have made you more interested?</h2>
+        <p class="hint">The main question here. Be specific if you can.</p>
+        <textarea name="do_better" placeholder="Your answer"></textarea>
+      </section>
+
+      <!-- Q7 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">07</span><span class="opt-tag">optional</span></div>
+        <h2>Why did the texts stop?</h2>
+        <div class="choices" data-name="ghost_reason">
+          <div class="choice"><input type="radio" id="gr1" name="ghost_reason" value="Got busy, nothing personal"><label for="gr1">Got busy, nothing personal</label></div>
+          <div class="choice"><input type="radio" id="gr2" name="ghost_reason" value="The interest wasn't there"><label for="gr2">The interest wasn't there</label></div>
+          <div class="choice"><input type="radio" id="gr3" name="ghost_reason" value="Met someone else"><label for="gr3">Met someone else</label></div>
+          <div class="choice"><input type="radio" id="gr5" name="ghost_reason" value="Pretty sure you stopped texting me"><label for="gr5">Pretty sure you stopped texting me</label></div>
+        </div>
+        <button type="button" class="clear-choice">clear answer</button>
+      </section>
+
+      <!-- Q8 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">08</span><span class="opt-tag">optional</span></div>
+        <h2>Was it something specific?</h2>
+        <p class="hint">A comment, a moment, a habit. If one thing did it, name it.</p>
+        <input type="text" name="something_said" placeholder="Your answer" autocomplete="off">
+      </section>
+
+      <!-- Q9 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">09</span><span class="opt-tag">optional</span></div>
+        <h2>How much did you enjoy spending time with / talking with Dylan?</h2>
+        <div class="stars" id="textStars" data-name="texting_rating">
+          <button type="button" data-v="1" aria-label="1 star">&#9733;</button>
+          <button type="button" data-v="2" aria-label="2 stars">&#9733;</button>
+          <button type="button" data-v="3" aria-label="3 stars">&#9733;</button>
+          <button type="button" data-v="4" aria-label="4 stars">&#9733;</button>
+          <button type="button" data-v="5" aria-label="5 stars">&#9733;</button>
+        </div>
+      </section>
+
+      <!-- Q10 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">10</span><span class="opt-tag">optional</span></div>
+        <h2>Any interest in a round two?</h2>
+        <div class="choices" data-name="second_chance">
+          <div class="choice"><input type="radio" id="sc1" name="second_chance" value="Yes, text me"><label for="sc1">Yes, text me</label></div>
+          <div class="choice"><input type="radio" id="sc2" name="second_chance" value="Maybe"><label for="sc2">Maybe</label></div>
+          <div class="choice"><input type="radio" id="sc3" name="second_chance" value="No, but good luck out there"><label for="sc3">No, but good luck out there</label></div>
+        </div>
+        <button type="button" class="clear-choice">clear answer</button>
+      </section>
+
+      <!-- Q11 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">11</span><span class="opt-tag">optional</span></div>
+        <h2>Any advice?</h2>
+        <p class="hint">One line is plenty.</p>
+        <textarea name="advice" placeholder="Your answer"></textarea>
+      </section>
+
+      <!-- Q12 -->
+      <section class="q">
+        <div class="q-top"><span class="q-num">12</span><span class="opt-tag">optional</span></div>
+        <h2>Who is this?</h2>
+        <p class="hint">Name, initial, or leave it blank. Anonymous is fine.</p>
+        <input type="text" name="who" placeholder="Optional" autocomplete="off">
+      </section>
+
+      <div class="submit-area">
+        <button type="submit" class="submit-btn">Submit</button>
+        <p class="submit-error" id="submitError">That didn't go through. Check your connection and try again.</p>
+        <p class="submit-note">Anonymous unless you include your name.</p>
+      </div>
+    </form>
+
+    <footer>Handcrafted by Dylan - All responses appreciated<br>dylanire.land</footer>
+  </div>
+
+  <div id="thanks">
+    <div class="card">
+      <span class="mark">&#10003;</span>
+      <h2>Received</h2>
+      <p>Thanks for taking the time. This was genuinely useful.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Config: FormSubmit AJAX endpoint. Responses email to Dylan.
+  // Swap this URL out to point submissions somewhere else.
+  const ENDPOINT_URL = "https://formsubmit.co/ajax/dylan.ireland777@gmail.com";
+
+  // Rating scale 1 to 10
+  const expScale = document.getElementById("expScale");
+  let overallRating = null;
+  for (let i = 1; i <= 10; i++) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = i;
+    b.addEventListener("click", () => {
+      if (overallRating === i) {          // tap again to un-select (it's optional)
+        overallRating = null;
+        b.classList.remove("sel");
+        return;
+      }
+      overallRating = i;
+      expScale.querySelectorAll("button").forEach(x => x.classList.remove("sel"));
+      b.classList.add("sel");
+    });
+    expScale.appendChild(b);
+  }
+
+  // Star rating
+  const stars = document.getElementById("textStars");
+  let textingRating = null;
+  stars.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const v = Number(btn.dataset.v);
+      textingRating = (textingRating === v) ? null : v;
+      stars.querySelectorAll("button").forEach(x =>
+        x.classList.toggle("sel", textingRating !== null && Number(x.dataset.v) <= textingRating));
+    });
+  });
+
+  // "Clear answer" for radio groups (every question stays optional)
+  document.querySelectorAll(".q").forEach(q => {
+    const clearBtn = q.querySelector(".clear-choice");
+    if (!clearBtn) return;
+    const radios = q.querySelectorAll('input[type="radio"]');
+    radios.forEach(r => r.addEventListener("change", () => clearBtn.classList.add("show")));
+    clearBtn.addEventListener("click", () => {
+      radios.forEach(r => r.checked = false);
+      clearBtn.classList.remove("show");
+    });
+  });
+
+  // Submit
+  document.getElementById("surveyForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+
+    // Flat payload: FormSubmit renders top-level keys as rows in the email.
+    const payload = {
+      _subject: "New Dylan Dating Survey response",
+      _template: "table",
+      _captcha: "false",
+      submitted_at: new Date().toISOString(),
+    };
+    for (const [k, v] of fd.entries()) {
+      if (v && String(v).trim()) payload[k] = String(v).trim();
+    }
+    if (overallRating !== null) payload.overall_rating = String(overallRating);
+    if (textingRating !== null) payload.texting_rating = String(textingRating);
+
+    const btn = e.target.querySelector(".submit-btn");
+    const errEl = document.getElementById("submitError");
+    errEl.classList.remove("show");
+    btn.disabled = true;
+    btn.textContent = "Sending";
+
+    try {
+      const res = await fetch(ENDPOINT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      document.getElementById("survey").style.display = "none";
+      document.getElementById("thanks").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "instant" });
+    } catch (err) {
+      console.error("Submission failed:", err);
+      errEl.classList.add("show");
+      btn.disabled = false;
+      btn.textContent = "Submit";
+    }
+  });
+</script>
+</body>
+</html>

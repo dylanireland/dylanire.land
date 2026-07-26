@@ -22,3 +22,10 @@ jobs:
 
     - name: Sync directory to S3
       run: aws s3 sync . s3://dylanire.land --delete
+
+    # The CloudFront origin is the S3 REST endpoint, which only resolves
+    # index.html at the site root — a bare /dating-survey would 403 without
+    # this extensionless copy. Must run after the sync: --delete removes the
+    # extensionless object each deploy (it has no matching local file).
+    - name: Clean URL for /dating-survey
+      run: aws s3 cp dating-survey/index.html s3://dylanire.land/dating-survey --content-type "text/html; charset=utf-8"
