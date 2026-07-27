@@ -495,12 +495,21 @@
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("HTTP " + res.status);
+      // FormSubmit returns 200 even on failure (e.g. unactivated form) —
+      // the JSON success flag is the real verdict.
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data || String(data.success) !== "true") {
+        const e = new Error((data && data.message) || "HTTP " + res.status);
+        e.serverMessage = data && data.message;
+        throw e;
+      }
       document.getElementById("survey").style.display = "none";
       document.getElementById("thanks").style.display = "block";
       window.scrollTo({ top: 0, behavior: "instant" });
     } catch (err) {
       console.error("Submission failed:", err);
+      errEl.textContent = err.serverMessage ||
+        "That didn't go through. Check your connection and try again.";
       errEl.classList.add("show");
       btn.disabled = false;
       btn.textContent = "Submit";
