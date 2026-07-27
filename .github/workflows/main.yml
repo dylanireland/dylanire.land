@@ -29,3 +29,16 @@ jobs:
     # extensionless object each deploy (it has no matching local file).
     - name: Clean URL for /dating-survey
       run: aws s3 cp dating-survey/index.html s3://dylanire.land/dating-survey --content-type "text/html; charset=utf-8"
+
+    # CloudFront caches HTML for its default TTL (~24h), so pushes aren't
+    # visible on the live domain until the cache is invalidated. Best-effort:
+    # skipped silently if the deploy IAM user lacks CloudFront permissions.
+    - name: Invalidate CloudFront cache
+      continue-on-error: true
+      run: |
+        DIST_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?Aliases.Items!=null && contains(Aliases.Items, 'dylanire.land')].Id | [0]" --output text)
+        if [ -n "$DIST_ID" ] && [ "$DIST_ID" != "None" ]; then
+          aws cloudfront create-invalidation --distribution-id "$DIST_ID" --paths "/*"
+        else
+          echo "No distribution found for dylanire.land (or no permission); skipping."
+        fi
