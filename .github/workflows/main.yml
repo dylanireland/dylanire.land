@@ -28,7 +28,16 @@ jobs:
     # this extensionless copy. Must run after the sync: --delete removes the
     # extensionless object each deploy (it has no matching local file).
     - name: Clean URL for /dating-survey
-      run: aws s3 cp dating-survey/index.html s3://dylanire.land/dating-survey --content-type "text/html; charset=utf-8"
+      run: aws s3 cp dating-survey/index.html s3://dylanire.land/dating-survey --content-type "text/html; charset=utf-8" --cache-control "public, max-age=60"
+
+    # HTML must not sit in CloudFront for the legacy 24h default TTL — the
+    # deploy IAM user can't invalidate (no cloudfront perms), so a long TTL
+    # means every content edit is invisible for a day. A short max-age lets
+    # CloudFront revalidate within a minute. Assets keep their default TTL.
+    - name: Short cache TTL on HTML
+      run: |
+        aws s3 cp s3://dylanire.land/ s3://dylanire.land/ --recursive --exclude "*" --include "*.html" \
+          --metadata-directive REPLACE --content-type "text/html; charset=utf-8" --cache-control "public, max-age=60"
 
     # CloudFront caches HTML for its default TTL (~24h), so pushes aren't
     # visible on the live domain until the cache is invalidated. Best-effort:
