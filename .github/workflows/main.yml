@@ -30,6 +30,20 @@ jobs:
     - name: Clean URL for /dating-survey
       run: aws s3 cp dating-survey/index.html s3://dylanire.land/dating-survey --content-type "text/html; charset=utf-8" --cache-control "public, max-age=60"
 
+    - name: Clean URL for /survey
+      run: aws s3 cp survey/index.html s3://dylanire.land/survey --content-type "text/html; charset=utf-8" --cache-control "public, max-age=60"
+
+    # Link-preview fetchers (Apple LP, Facebook, etc.) hit the OG card image
+    # directly; a short TTL keeps a future card swap from being pinned in
+    # CloudFront for 24h. The image URL is new (/survey/card.png) so nothing
+    # stale exists for it today — this guards the next redesign.
+    - name: Short cache TTL on OG card images
+      run: |
+        aws s3 cp survey/card.png s3://dylanire.land/survey/card.png \
+          --metadata-directive REPLACE --content-type "image/png" --cache-control "public, max-age=300"
+        aws s3 cp dating-survey/og.png s3://dylanire.land/dating-survey/og.png \
+          --metadata-directive REPLACE --content-type "image/png" --cache-control "public, max-age=300"
+
     # HTML must not sit in CloudFront for the legacy 24h default TTL — the
     # deploy IAM user can't invalidate (no cloudfront perms), so a long TTL
     # means every content edit is invisible for a day. A short max-age lets
